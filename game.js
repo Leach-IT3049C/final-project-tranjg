@@ -14,7 +14,7 @@ var config = {
     physics: {
         default: 'arcade',
         arcade: {
-            debug: true,
+           // debug: true,
             gravity: { y: 0 }
         }
     },
@@ -66,12 +66,12 @@ function create ()
     collisions.setDepth(10);
 
 
-       const debugGraphics = this.add.graphics().setAlpha(0.75);
-       collisions.renderDebug(debugGraphics, {
-           tileColor: null,
-           collidingTileColor: new Phaser.Display.Color(243,234,48,255),
-           faceColor: new Phaser.Display.Color(40,39,37,255)
-       });
+    //   const debugGraphics = this.add.graphics().setAlpha(0.75);
+    //   collisions.renderDebug(debugGraphics, {
+    //       tileColor: null,
+    //       collidingTileColor: new Phaser.Display.Color(243,234,48,255),
+    //       faceColor: new Phaser.Display.Color(40,39,37,255)
+    //   });
 
 
     this.pink_monster = this.physics
@@ -79,22 +79,8 @@ function create ()
         .setSize(18,30)
         .setOffset(7,3);
 
-   // this.pink_monster_walk = this.physics
-   //     .add.sprite(50, 160, 'pink_monster_walk', 0)
-   //     .setSize(18,30)
-   //     .setOffset(7,3);
 
-   // this.pink_monster_run = this.physics
-   //     .add.sprite(50,160, 'pink_monster_run', 0)
-   //     .setSize(18,30)
-   //     .setOffset(7,3);
-
-   // this.pink_monster_walk.visible = false;
-   // this.pink_monster_run.visible = false;
-
-  //  this.physics.add.collider(this.pink_monster_walk, collisions);
     this.physics.add.collider(this.pink_monster, collisions);
-   // this.physics.add.collider(this.pink_monster_run, collisions);
 
     this.physics.world.setBounds(0,0,400,420);
 
@@ -118,11 +104,6 @@ function create ()
         frameRate: 12,
         frames: this.anims.generateFrameNames('pink_monster_run', {start: 1, end: 6})
     });
-
-    // var timedEvent = this.time.addEvent({ delay: 1000, callback: updateRunMeter, callbackScope: this, loop: true });
-
-    // pink_monster.setPosition(width / 2, height/ 2);
-    // pink_monster.setPosition(this.cameras.main.centerX, this.cameras.main.centerY);
 
 
 }
@@ -148,18 +129,7 @@ function moveCharacterDown (characterBody, speed)
     characterBody.setVelocityY(speed);
 }
 
-function visibilityBool (characterVis, boolean)
-{
-    characterVis = boolean;
-}
 
-function flipBool (characterFlipX, boolean) // flips sprite on horizontal axis
-{
-    characterFlipX = boolean;
-}
-
-
-var runMeter = 5;
 function updateRunMeter ()
 {
     runMeter--;
@@ -193,15 +163,9 @@ function update (time,delta)
     }
     if (this.cursors.up.isDown)
     {
-       // moveCharacterUp(this.pink_monster_run.body, speed);
-       // moveCharacterUp(this.pink_monster_walk.body, speed);
+
         moveCharacterUp(this.pink_monster.body, speed);
 
-        // this.pink_monster_walk.setVelocityY(-speed);
-
-        // this.pink_monster.setVelocityY(-speed);
-
-        // this.pink_monster_run.setVelocityY(-speed);
 
     }
     else if (this.cursors.down.isDown)
