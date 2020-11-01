@@ -33,8 +33,8 @@ function preload ()
         frameWidth: 16,
         frameHeight: 16
     });
-    this.load.tilemapTiledJSON('map','assets/tiles/woods-01.json');
-    this.load.spritesheet('pink_monster_stand', 'assets/sprites/pink_monster/Pink_Monster_Idle_4.png', {frameWidth: 32, frameHeight: 32});
+    this.load.tilemapTiledJSON('map','assets/tiles/woods-02.json');
+    this.load.spritesheet('pink_monster', 'assets/sprites/pink_monster/Pink_Monster_Idle_4.png', {frameWidth: 32, frameHeight: 32});
     this.load.spritesheet('pink_monster_walk', 'assets/sprites/pink_monster/Pink_Monster_Walk_6.png', {frameWidth: 32, frameHeight: 32});
     this.load.spritesheet('pink_monster_run', 'assets/sprites/pink_monster/Pink_Monster_Run_6.png', {frameWidth: 32, frameHeight: 32});
 
@@ -55,7 +55,7 @@ function create ()
 
 
     var map = this.make.tilemap({ key: 'map' });
-    var tileset = map.addTilesetImage('woods-01', 'tiles');
+    var tileset = map.addTilesetImage('woods-02', 'tiles');
 
     const grass = map.createStaticLayer('grass', tileset, 0, 0);
     const path = map.createStaticLayer('path', tileset, 0, 0);
@@ -65,34 +65,36 @@ function create ()
     collisions.setCollisionByProperty({collides: true});
     collisions.setDepth(10);
 
-    //   const debugGraphics = this.add.graphics().setAlpha(0.75);
-    //   collisions.renderDebug(debugGraphics, {
-    //       tileColor: null,
-    //       collidingTileColor: new Phaser.Display.Color(243,234,48,255),
-    //       faceColor: new Phaser.Display.Color(40,39,37,255)
-    //   });
 
-    this.pink_monster_stand = this.physics
-        .add.sprite(50, 160, 'pink_monster_stand', 0)
+       const debugGraphics = this.add.graphics().setAlpha(0.75);
+       collisions.renderDebug(debugGraphics, {
+           tileColor: null,
+           collidingTileColor: new Phaser.Display.Color(243,234,48,255),
+           faceColor: new Phaser.Display.Color(40,39,37,255)
+       });
+
+
+    this.pink_monster = this.physics
+        .add.sprite(50, 160, 'pink_monster', 0)
         .setSize(18,30)
         .setOffset(7,3);
 
-    this.pink_monster_walk = this.physics
-        .add.sprite(50, 160, 'pink_monster_walk', 0)
-        .setSize(18,30)
-        .setOffset(7,3);
+   // this.pink_monster_walk = this.physics
+   //     .add.sprite(50, 160, 'pink_monster_walk', 0)
+   //     .setSize(18,30)
+   //     .setOffset(7,3);
 
-    this.pink_monster_run = this.physics
-        .add.sprite(50,160, 'pink_monster_run', 0)
-        .setSize(18,30)
-        .setOffset(7,3);
+   // this.pink_monster_run = this.physics
+   //     .add.sprite(50,160, 'pink_monster_run', 0)
+   //     .setSize(18,30)
+   //     .setOffset(7,3);
 
-    this.pink_monster_walk.visible = false;
-    this.pink_monster_run.visible = false;
+   // this.pink_monster_walk.visible = false;
+   // this.pink_monster_run.visible = false;
 
-    this.physics.add.collider(this.pink_monster_walk, collisions);
-    this.physics.add.collider(this.pink_monster_stand, collisions);
-    this.physics.add.collider(this.pink_monster_run, collisions);
+  //  this.physics.add.collider(this.pink_monster_walk, collisions);
+    this.physics.add.collider(this.pink_monster, collisions);
+   // this.physics.add.collider(this.pink_monster_run, collisions);
 
     this.physics.world.setBounds(0,0,400,420);
 
@@ -107,7 +109,7 @@ function create ()
         key: 'stand',
         repeat: -1,
         frameRate: 5,
-        frames: this.anims.generateFrameNames('pink_monster_stand', {start: 1, end: 6})
+        frames: this.anims.generateFrameNames('pink_monster', {start: 1, end: 6})
     });
 
     this.anims.create({
@@ -166,93 +168,61 @@ function updateRunMeter ()
 
 function update (time,delta)
 {
-    this.pink_monster_walk.body.setVelocity(0);
-    this.pink_monster_stand.body.setVelocity(0);
-    this.pink_monster_run.body.setVelocity(0);
-    const prevVelocity = this.pink_monster_walk.body.velocity.clone();
+    //this.pink_monster_walk.body.setVelocity(0);
+    this.pink_monster.body.setVelocity(0);
+    //this.pink_monster_run.body.setVelocity(0);
+    //const prevVelocity = this.pink_monster_walk.body.velocity.clone();
     var speed = 70;
 
 
     if (this.cursors.left.isDown)
     {
-        moveCharacterLeft(this.pink_monster_run.body, speed);
-        moveCharacterLeft(this.pink_monster_walk.body, speed);
-        moveCharacterLeft(this.pink_monster_stand.body, speed);
 
-        // this.pink_monster_walk.body.setVelocityX(-speed);
+        moveCharacterLeft(this.pink_monster.body, speed);
 
-        //  this.pink_monster_stand.body.setVelocityX(-speed);
-
-        // this.pink_monster_run.body.setVelocityX(-speed));
 
 
     }
     else if (this.cursors.right.isDown)
     {
-        moveCharacterRight(this.pink_monster_run.body, speed);
-        moveCharacterRight(this.pink_monster_walk.body, speed);
-        moveCharacterRight(this.pink_monster_stand.body, speed);
 
-        // this.pink_monster_walk.body.setVelocityX(speed);
+        moveCharacterRight(this.pink_monster.body, speed);
 
-        // this.pink_monster_stand.setVelocityX(speed);
-
-        // this.pink_monster_run.setVelocityX(speed);
 
 
     }
     if (this.cursors.up.isDown)
     {
-        moveCharacterUp(this.pink_monster_run.body, speed);
-        moveCharacterUp(this.pink_monster_walk.body, speed);
-        moveCharacterUp(this.pink_monster_stand.body, speed);
+       // moveCharacterUp(this.pink_monster_run.body, speed);
+       // moveCharacterUp(this.pink_monster_walk.body, speed);
+        moveCharacterUp(this.pink_monster.body, speed);
 
         // this.pink_monster_walk.setVelocityY(-speed);
 
-        // this.pink_monster_stand.setVelocityY(-speed);
+        // this.pink_monster.setVelocityY(-speed);
 
         // this.pink_monster_run.setVelocityY(-speed);
 
     }
     else if (this.cursors.down.isDown)
     {
-        moveCharacterDown(this.pink_monster_run.body, speed);
-        moveCharacterDown(this.pink_monster_walk.body, speed);
-        moveCharacterDown(this.pink_monster_stand.body, speed);
+        moveCharacterDown(this.pink_monster.body, speed);
 
-        // this.pink_monster_walk.setVelocityY(speed);
-
-        // this.pink_monster_stand.setVelocityY(speed);
-
-        // this.pink_monster_run.setVelocityY(speed);
-
-    }
-    if (this.cursors.spacebar.isDown)
-    {
-        speed = speed * 1.2;
     }
 
     if (this.cursors.spacebar.isDown)
     {
-        this.pink_monster_run.visible = true;
-        this.pink_monster_run.play('run', true);
-
-        this.pink_monster_walk.visible = false;
-        this.pink_monster_walk.play('walk', false);
-
-        this.pink_monster_stand.visible = false;
-        this.pink_monster_stand.play('stand', false);
+        speed = speed * 1.2;
+        this.pink_monster.play('run',true);
 
 
         if (this.cursors.left.isDown)
         {
-            this.pink_monster_run.flipX = true;
-            this.pink_monster_stand.flipX = true;
+            this.pink_monster.flipX = true;
         }
         else if (this.cursors.right.isDown)
         {
-            this.pink_monster_run.flipX = false;
-            this.pink_monster_stand.flipX = false;
+            this.pink_monster.flipX = false;
         }
 
     }
@@ -260,94 +230,35 @@ function update (time,delta)
 
     else if (this.cursors.left.isDown)
     {
-        // visibilityBool(this.pink_monster_walk.visible, true);
-        this.pink_monster_walk.visible = true;
 
-        // flipBool(this.pink_monster_walk.flipX, true);
-        this.pink_monster_walk.flipX = true;
-        this.pink_monster_walk.play('walk', true);
-
-        // visibilityBool(this.pink_monster_stand.visible, false);
-        this.pink_monster_stand.visible = false;
-
-        // flipBool(this.pink_monster_stand.flipX, true);
-        this.pink_monster_stand.flipX = true;
-        this.pink_monster_stand.play('stand', false);
-
-        // visibilityBool(this.pink_monster_run.visible, false);
-        this.pink_monster_run.visible = false;
-
-        // flipBool(this.pink_monster_run.flipX, true);
-        this.pink_monster_run.flipX = true;
-        this.pink_monster_run.play('run', false);
-
+        this.pink_monster.flipX = true;
+        this.pink_monster.play('walk',true);
 
     }
     else if (this.cursors.right.isDown)
     {
-        // flipBool(this.pink_monster_walk.flipX, false);
-        // flipBool(this.pink_monster_stand.flipX, false);
-        // flipBool(this.pink_monster_run.flipX, false);
 
-        this.pink_monster_walk.visible = true;
-        this.pink_monster_walk.flipX = false;
-        this.pink_monster_walk.play('walk', true);
-
-
-        this.pink_monster_stand.visible = false;
-        this.pink_monster_stand.flipX = false;
-        this.pink_monster_stand.play('stand', false);
-
-        this.pink_monster_run.visible = false;
-        this.pink_monster_run.flipX = false;
-        this.pink_monster_run.play('run', false);
-
+        this.pink_monster.flipX = false;
+        this.pink_monster.play('walk',true);
 
     }
     else if (this.cursors.up.isDown)
     {
 
-        this.pink_monster_walk.visible = true;
-        this.pink_monster_walk.play('walk', true);
+        this.pink_monster.play('walk', true);
 
-
-        this.pink_monster_stand.visible = false;
-        this.pink_monster_stand.play('stand', false);
-
-        this.pink_monster_run.visible = false;
-        this.pink_monster_run.play('run', false);
     }
     else if (this.cursors.down.isDown)
     {
-
-        this.pink_monster_walk.visible = true;
-        this.pink_monster_walk.play('walk', true);
-
-        this.pink_monster_stand.visible = false;
-        this.pink_monster_stand.play('stand', false);
-
-        this.pink_monster_run.visible = false;
-        this.pink_monster_run.play('run', false);
+        this.pink_monster.play('walk', true);
     }
     else
     {
-        this.pink_monster_stand.visible = true;
-        this.pink_monster_stand.play('stand', true);
-
-        this.pink_monster_walk.visible = false;
-        this.pink_monster_walk.play('walk', false);
-
-        this.pink_monster_run.visible = false;
-        this.pink_monster_run.play('run', false);
+        this.pink_monster.play('stand', true);
     }
 
 
-
-
-
-    this.pink_monster_stand.body.velocity.normalize().scale(speed);
-    this.pink_monster_walk.body.velocity.normalize().scale(speed);
-    this.pink_monster_run.body.velocity.normalize().scale(speed);
+    this.pink_monster.body.velocity.normalize().scale(speed);
 }
 
 
