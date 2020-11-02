@@ -1,3 +1,5 @@
+import PinkMonsterAnim from "./assets/anims/PinkMonsterAnims.js";
+
 let gameScene = new Phaser.Scene('Game');
 
 var config = {
@@ -38,8 +40,8 @@ function preload ()
     this.load.spritesheet('pink_monster_walk', 'assets/sprites/pink_monster/Pink_Monster_Walk_6.png', {frameWidth: 32, frameHeight: 32});
     this.load.spritesheet('pink_monster_run', 'assets/sprites/pink_monster/Pink_Monster_Run_6.png', {frameWidth: 32, frameHeight: 32});
 
-    // this.cursors = this.input.keyboard.createCursorKeys();
-    this.cursors = this.input.keyboard.addKeys(
+    // this.player1 = this.input.keyboard.createCursorKeys();
+    this.player1 = this.input.keyboard.addKeys(
         {
             up: Phaser.Input.Keyboard.KeyCodes.W,
             down: Phaser.Input.Keyboard.KeyCodes.S,
@@ -79,32 +81,11 @@ function create ()
         .setSize(18,30)
         .setOffset(7,3);
 
+    PinkMonsterAnim(this);
 
     this.physics.add.collider(this.pink_monster, collisions);
 
     this.physics.world.setBounds(0,0,400,420);
-
-    this.anims.create({
-        key: 'walk',
-        repeat: -1,
-        frameRate: 10,
-        frames: this.anims.generateFrameNames('pink_monster_walk', {start: 1, end: 6})
-    });
-
-    this.anims.create({
-        key: 'stand',
-        repeat: -1,
-        frameRate: 5,
-        frames: this.anims.generateFrameNames('pink_monster', {start: 1, end: 6})
-    });
-
-    this.anims.create({
-        key: 'run',
-        repeat: -1,
-        frameRate: 12,
-        frames: this.anims.generateFrameNames('pink_monster_run', {start: 1, end: 6})
-    });
-
 
 }
 
@@ -138,14 +119,11 @@ function updateRunMeter ()
 
 function update (time,delta)
 {
-    //this.pink_monster_walk.body.setVelocity(0);
     this.pink_monster.body.setVelocity(0);
-    //this.pink_monster_run.body.setVelocity(0);
-    //const prevVelocity = this.pink_monster_walk.body.velocity.clone();
     var speed = 70;
 
 
-    if (this.cursors.left.isDown)
+    if (this.player1.left.isDown)
     {
 
         moveCharacterLeft(this.pink_monster.body, speed);
@@ -153,7 +131,7 @@ function update (time,delta)
 
 
     }
-    else if (this.cursors.right.isDown)
+    else if (this.player1.right.isDown)
     {
 
         moveCharacterRight(this.pink_monster.body, speed);
@@ -161,30 +139,30 @@ function update (time,delta)
 
 
     }
-    if (this.cursors.up.isDown)
+    if (this.player1.up.isDown)
     {
 
         moveCharacterUp(this.pink_monster.body, speed);
 
 
     }
-    else if (this.cursors.down.isDown)
+    else if (this.player1.down.isDown)
     {
         moveCharacterDown(this.pink_monster.body, speed);
 
     }
 
-    if (this.cursors.spacebar.isDown)
+    if (this.player1.spacebar.isDown)
     {
         speed = speed * 1.2;
         this.pink_monster.play('run',true);
 
 
-        if (this.cursors.left.isDown)
+        if (this.player1.left.isDown)
         {
             this.pink_monster.flipX = true;
         }
-        else if (this.cursors.right.isDown)
+        else if (this.player1.right.isDown)
         {
             this.pink_monster.flipX = false;
         }
@@ -192,27 +170,27 @@ function update (time,delta)
     }
 
 
-    else if (this.cursors.left.isDown)
+    else if (this.player1.left.isDown)
     {
 
         this.pink_monster.flipX = true;
         this.pink_monster.play('walk',true);
 
     }
-    else if (this.cursors.right.isDown)
+    else if (this.player1.right.isDown)
     {
 
         this.pink_monster.flipX = false;
         this.pink_monster.play('walk',true);
 
     }
-    else if (this.cursors.up.isDown)
+    else if (this.player1.up.isDown)
     {
 
         this.pink_monster.play('walk', true);
 
     }
-    else if (this.cursors.down.isDown)
+    else if (this.player1.down.isDown)
     {
         this.pink_monster.play('walk', true);
     }
@@ -222,7 +200,7 @@ function update (time,delta)
     }
 
 
-    this.pink_monster.body.velocity.normalize().scale(speed);
+    this.pink_monster.body.velocity.normalize().scale(speed); // keeps sprite from moving faster at diagonals
 }
 
 
