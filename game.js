@@ -17,7 +17,7 @@ var config = {
     physics: {
         default: 'arcade',
         arcade: {
-           // debug: true,
+            debug: true,
             gravity: { y: 0 }
         }
     },
@@ -88,12 +88,12 @@ function create ()
     collisions.setDepth(10);
 
 
-    //   const debugGraphics = this.add.graphics().setAlpha(0.75);
-    //   collisions.renderDebug(debugGraphics, {
-    //       tileColor: null,
-    //       collidingTileColor: new Phaser.Display.Color(243,234,48,255),
-    //       faceColor: new Phaser.Display.Color(40,39,37,255)
-    //   });
+       const debugGraphics = this.add.graphics().setAlpha(0.75);
+       collisions.renderDebug(debugGraphics, {
+           tileColor: null,
+           collidingTileColor: new Phaser.Display.Color(243,234,48,255),
+           faceColor: new Phaser.Display.Color(40,39,37,255)
+       });
 
 
     this.pink_monster = this.physics
@@ -103,8 +103,8 @@ function create ()
 
     this.owlet_monster = this.physics
         .add.sprite(350,160,'owlet_monster', 0)
-        .setSize(18,30)
-        .setOffset(7,3);
+        .setSize(18,29)
+        .setOffset(7,4);
 
     this.owlet_monster.flipX = true;
 
