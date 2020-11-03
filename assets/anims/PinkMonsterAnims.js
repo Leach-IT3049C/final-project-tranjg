@@ -19,4 +19,11 @@ export default function PinkMonsterAnim(scene){
         frameRate: 12,
         frames: scene.anims.generateFrameNames('pink_monster_run', {start: 1, end: 6})
     });
+
+    scene.anims.create({
+        key: 'hurt',
+        repeat: 0,
+        frameRate: 12,
+        frames: scene.anims.generateFrameNames('pink_monster_hurt', {start: 1, end: 6})
+    });
 }

@@ -40,10 +40,14 @@ function preload ()
     this.load.spritesheet('pink_monster', 'assets/sprites/pink_monster/Pink_Monster_Idle_4.png', {frameWidth: 32, frameHeight: 32});
     this.load.spritesheet('pink_monster_walk', 'assets/sprites/pink_monster/Pink_Monster_Walk_6.png', {frameWidth: 32, frameHeight: 32});
     this.load.spritesheet('pink_monster_run', 'assets/sprites/pink_monster/Pink_Monster_Run_6.png', {frameWidth: 32, frameHeight: 32});
+    this.load.spritesheet('pink_monster_hurt', 'assets/sprites/pink_monster/Pink_Monster_Hurt_4.png', {frameWidth: 32, frameHeight: 32});
 
     this.load.spritesheet('owlet_monster', 'assets/sprites/owlet_monster/Owlet_Monster_Idle_4.png', {frameWidth: 32, frameHeight: 32});
     this.load.spritesheet('owlet_monster_walk', 'assets/sprites/owlet_monster/Owlet_Monster_Walk_6.png', {frameWidth: 32, frameHeight: 32});
-    this.load.spritesheet('owlet_monster_run', 'assets/sprites/pink_monster/Owlet_Monster_Run_6.png', {frameWidth: 32, frameHeight: 32});
+    this.load.spritesheet('owlet_monster_run', 'assets/sprites/owlet_monster/Owlet_Monster_Run_6.png', {frameWidth: 32, frameHeight: 32});
+    this.load.spritesheet('owlet_monster_hurt', 'assets/sprites/owlet_monster/Owlet_Monster_Hurt_4.png', {frameWidth: 32, frameHeight: 32});
+
+    this.load.spritesheet('run_dust', 'assets/sprites/pink_monster/Walk_Run_Push_Dust_6.png', {frameWidth: 32, frameHeight: 32});
 
 
 
@@ -111,8 +115,51 @@ function create ()
     this.physics.add.collider(this.owlet_monster, collisions);
     this.physics.add.collider(this.pink_monster, this.owlet_monster);
 
+    //this.physics.add.overlap(this.pink_monster, this.owlet_monster, gotTagged);
+
     this.physics.world.setBounds(0,0,400,420);
 
+
+
+}
+
+function selectTagger(player1, player2){
+    window.playerSelect = Math.floor((Math.random() * 2) + 1);
+    window.taggerP1 = false;
+    window.taggerP2 = false;
+    console.log(playerSelect);
+
+    if (playerSelect === 1)
+    {
+        taggerP1 = true;
+        player1.play('hurt', true);
+        console.log(taggerP1);
+    }
+    else if (playerSelect === 2)
+    {
+        taggerP2 = true;
+        player2.play('owlet-hurt', true);
+        console.log(taggerP2);
+    }
+
+}
+
+
+
+
+function gotTagged(player1, player2){
+    if (this.taggerP1 == true)
+    {
+        player2.play('owlet-hurt', true);
+        this.taggerP1 = false;
+        this.taggerP2 = true;
+    }
+    else if (this.taggerP2 == true)
+    {
+        player1.play('hurt', true);
+        this.taggerP2 = false;
+        this.taggerP1 = true;
+    }
 }
 
 
@@ -143,6 +190,8 @@ function update (time,delta)
     this.owlet_monster.body.setVelocity(0);
     var speed = 70;
     var speed2 = 70;
+
+
 
 //player1
     if (this.player1.left.isDown)
@@ -247,7 +296,7 @@ function update (time,delta)
     if (this.player2.space2.isDown)
     {
         speed2 = speed2 * 2.2;
-        this.owlet_monster.play('run',true);
+        this.owlet_monster.play('owlet-run',true);
 
 
         if (this.player2.left2.isDown)
@@ -264,29 +313,29 @@ function update (time,delta)
     {
 
         this.owlet_monster.flipX = true;
-        this.owlet_monster.play('walk',true);
+        this.owlet_monster.play('owlet-walk',true);
 
     }
     else if (this.player2.right2.isDown)
     {
 
         this.owlet_monster.flipX = false;
-        this.owlet_monster.play('walk',true);
+        this.owlet_monster.play('owlet-walk',true);
 
     }
     else if (this.player2.up2.isDown)
     {
 
-        this.owlet_monster.play('walk', true);
+        this.owlet_monster.play('owlet-walk', true);
 
     }
     else if (this.player2.down2.isDown)
     {
-        this.owlet_monster.play('walk', true);
+        this.owlet_monster.play('owlet-walk', true);
     }
     else
     {
-        this.owlet_monster.play('stand', true);
+        this.owlet_monster.play('owlet-stand', true);
     }
 
     this.pink_monster.body.velocity.normalize().scale(speed); // keeps sprite from moving faster at diagonals
