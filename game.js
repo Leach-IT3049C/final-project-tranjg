@@ -1,4 +1,5 @@
 import PinkMonsterAnim from "./assets/anims/PinkMonsterAnims.js";
+import OwletMonsterAnim from "./assets/anims/OwletMonsterAnim.js";
 
 let gameScene = new Phaser.Scene('Game');
 
@@ -40,6 +41,12 @@ function preload ()
     this.load.spritesheet('pink_monster_walk', 'assets/sprites/pink_monster/Pink_Monster_Walk_6.png', {frameWidth: 32, frameHeight: 32});
     this.load.spritesheet('pink_monster_run', 'assets/sprites/pink_monster/Pink_Monster_Run_6.png', {frameWidth: 32, frameHeight: 32});
 
+    this.load.spritesheet('owlet_monster', 'assets/sprites/owlet_monster/Owlet_Monster_Idle_4.png', {frameWidth: 32, frameHeight: 32});
+    this.load.spritesheet('owlet_monster_walk', 'assets/sprites/owlet_monster/Owlet_Monster_Walk_6.png', {frameWidth: 32, frameHeight: 32});
+    this.load.spritesheet('owlet_monster_run', 'assets/sprites/pink_monster/Owlet_Monster_Run_6.png', {frameWidth: 32, frameHeight: 32});
+
+
+
     // this.player1 = this.input.keyboard.createCursorKeys();
     this.player1 = this.input.keyboard.addKeys(
         {
@@ -47,7 +54,16 @@ function preload ()
             down: Phaser.Input.Keyboard.KeyCodes.S,
             left: Phaser.Input.Keyboard.KeyCodes.A,
             right: Phaser.Input.Keyboard.KeyCodes.D,
-            spacebar: Phaser.Input.Keyboard.KeyCodes.SPACE
+            shift: Phaser.Input.Keyboard.KeyCodes.SHIFT
+        });
+
+    this.player2 = this.input.keyboard.addKeys(
+        {
+            up2: Phaser.Input.Keyboard.KeyCodes.UP,
+            down2: Phaser.Input.Keyboard.KeyCodes.DOWN,
+            left2: Phaser.Input.Keyboard.KeyCodes.LEFT,
+            right2: Phaser.Input.Keyboard.KeyCodes.RIGHT,
+            space2: Phaser.Input.Keyboard.KeyCodes.SPACE
         });
 
 }
@@ -81,9 +97,19 @@ function create ()
         .setSize(18,30)
         .setOffset(7,3);
 
+    this.owlet_monster = this.physics
+        .add.sprite(350,160,'owlet_monster', 0)
+        .setSize(18,30)
+        .setOffset(7,3);
+
+    this.owlet_monster.flipX = true;
+
     PinkMonsterAnim(this);
+    OwletMonsterAnim(this);
 
     this.physics.add.collider(this.pink_monster, collisions);
+    this.physics.add.collider(this.owlet_monster, collisions);
+    this.physics.add.collider(this.pink_monster, this.owlet_monster);
 
     this.physics.world.setBounds(0,0,400,420);
 
@@ -111,24 +137,18 @@ function moveCharacterDown (characterBody, speed)
 }
 
 
-function updateRunMeter ()
-{
-    runMeter--;
-    console.log(runMeter);
-}
-
 function update (time,delta)
 {
     this.pink_monster.body.setVelocity(0);
+    this.owlet_monster.body.setVelocity(0);
     var speed = 70;
+    var speed2 = 70;
 
-
+//player1
     if (this.player1.left.isDown)
     {
 
         moveCharacterLeft(this.pink_monster.body, speed);
-
-
 
     }
     else if (this.player1.right.isDown)
@@ -136,14 +156,11 @@ function update (time,delta)
 
         moveCharacterRight(this.pink_monster.body, speed);
 
-
-
     }
     if (this.player1.up.isDown)
     {
 
         moveCharacterUp(this.pink_monster.body, speed);
-
 
     }
     else if (this.player1.down.isDown)
@@ -152,9 +169,9 @@ function update (time,delta)
 
     }
 
-    if (this.player1.spacebar.isDown)
+    if (this.player1.shift.isDown)
     {
-        speed = speed * 1.2;
+        speed = speed * 2;
         this.pink_monster.play('run',true);
 
 
@@ -199,8 +216,81 @@ function update (time,delta)
         this.pink_monster.play('stand', true);
     }
 
+//player 2
+
+    if (this.player2.left2.isDown)
+    {
+
+        moveCharacterLeft(this.owlet_monster.body, speed2);
+
+    }
+    else if (this.player2.right2.isDown)
+    {
+
+        moveCharacterRight(this.owlet_monster.body, speed2);
+
+    }
+
+
+    if (this.player2.up2.isDown)
+    {
+
+        moveCharacterUp(this.owlet_monster.body, speed2);
+
+    }
+    else if (this.player2.down2.isDown)
+    {
+        moveCharacterDown(this.owlet_monster.body, speed2);
+
+    }
+
+    if (this.player2.space2.isDown)
+    {
+        speed2 = speed2 * 2.2;
+        this.owlet_monster.play('run',true);
+
+
+        if (this.player2.left2.isDown)
+        {
+            this.owlet_monster.flipX = true;
+        }
+        else if (this.player2.right2.isDown)
+        {
+            this.owlet_monster.flipX = false;
+        }
+
+    }
+    else if (this.player2.left2.isDown)
+    {
+
+        this.owlet_monster.flipX = true;
+        this.owlet_monster.play('walk',true);
+
+    }
+    else if (this.player2.right2.isDown)
+    {
+
+        this.owlet_monster.flipX = false;
+        this.owlet_monster.play('walk',true);
+
+    }
+    else if (this.player2.up2.isDown)
+    {
+
+        this.owlet_monster.play('walk', true);
+
+    }
+    else if (this.player2.down2.isDown)
+    {
+        this.owlet_monster.play('walk', true);
+    }
+    else
+    {
+        this.owlet_monster.play('stand', true);
+    }
 
     this.pink_monster.body.velocity.normalize().scale(speed); // keeps sprite from moving faster at diagonals
+    this.owlet_monster.body.velocity.normalize().scale(speed2);
 }
 
 
