@@ -113,53 +113,62 @@ function create ()
 
     this.physics.add.collider(this.pink_monster, collisions);
     this.physics.add.collider(this.owlet_monster, collisions);
-    this.physics.add.collider(this.pink_monster, this.owlet_monster);
+    this.physics.add.collider(this.pink_monster, this.owlet_monster, gotTagged);
 
     //this.physics.add.overlap(this.pink_monster, this.owlet_monster, gotTagged);
 
     this.physics.world.setBounds(0,0,400,420);
 
-
-
-}
-
-function selectTagger(player1, player2){
-    window.playerSelect = Math.floor((Math.random() * 2) + 1);
-    window.taggerP1 = false;
-    window.taggerP2 = false;
-    console.log(playerSelect);
+    var playerSelect = Math.floor((Math.random() * 2) + 1);
+    var taggerP1 = false;
+    var taggerP2 = false;
+    // console.log(playerSelect);
 
     if (playerSelect === 1)
     {
         taggerP1 = true;
-        player1.play('hurt', true);
-        console.log(taggerP1);
+        this.pink_monster.play('hurt', true);
+        console.log(taggerP1 + ' p1');
     }
     else if (playerSelect === 2)
     {
         taggerP2 = true;
-        player2.play('owlet-hurt', true);
-        console.log(taggerP2);
+        this.owlet_monster.play('owlet-hurt', true);
+        console.log(taggerP2 + ' p2');
     }
+
+
+}
+
+function selectTagger(selectedNum,player1, player2){
+
 
 }
 
 
 
 
-function gotTagged(player1, player2){
-    if (this.taggerP1 == true)
+function gotTagged(player1, player2) {
+    // console.log('true');
+    player1.setPosition(50,160);
+    player2.setPosition(350,160);
+    if (player1.body.velocityX == 74 && player1.body.velocityY == 74)
     {
-        player2.play('owlet-hurt', true);
-        this.taggerP1 = false;
-        this.taggerP2 = true;
+        player1.body.setVelocityX(70);
+        player1.body.setVelocityY(70);
+        player2.body.setVelocityX(74);
+        player2.body.setVelocityY(74);
+        console.log('player 2 speed 74');
     }
-    else if (this.taggerP2 == true)
+    else if (player2.velocityX == 74 && player2.velocityY == 74)
     {
-        player1.play('hurt', true);
-        this.taggerP2 = false;
-        this.taggerP1 = true;
+        player2.body.setVelocityX(70);
+        player2.body.setVelocityY(70);
+        player1.body.setVelocityX(74);
+        player1.body.setVelocityY(74);
+        console.log('player 1 speed 74');
     }
+
 }
 
 
