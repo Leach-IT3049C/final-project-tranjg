@@ -152,22 +152,22 @@ function gotTagged(player1, player2) {
     // console.log('true');
     player1.setPosition(50,160);
     player2.setPosition(350,160);
-    if (player1.body.velocityX == 74 && player1.body.velocityY == 74)
-    {
-        player1.body.setVelocityX(70);
-        player1.body.setVelocityY(70);
-        player2.body.setVelocityX(74);
-        player2.body.setVelocityY(74);
-        console.log('player 2 speed 74');
-    }
-    else if (player2.velocityX == 74 && player2.velocityY == 74)
-    {
-        player2.body.setVelocityX(70);
-        player2.body.setVelocityY(70);
-        player1.body.setVelocityX(74);
-        player1.body.setVelocityY(74);
-        console.log('player 1 speed 74');
-    }
+   // if (player1.body.velocityX == 74 && player1.body.velocityY == 74)
+   // {
+   //     player1.body.setVelocityX(70);
+   //     player1.body.setVelocityY(70);
+   //     player2.body.setVelocityX(74);
+    //    player2.body.setVelocityY(74);
+        console.log('player 2 speed ' + player2.body.maxVelocityX);
+   // }
+   // else if (player2.velocityX == 74 && player2.velocityY == 74)
+   // {
+   //     player2.body.setVelocityX(70);
+   //     player2.body.setVelocityY(70);
+    //    player1.body.setVelocityX(74);
+    //    player1.body.setVelocityY(74);
+    //    console.log('player 1 speed 74');
+   // }
 
 }
 
@@ -198,7 +198,7 @@ function update (time,delta)
     this.pink_monster.body.setVelocity(0);
     this.owlet_monster.body.setVelocity(0);
     var speed = 70;
-    var speed2 = 74;
+    var speed2 = 73;
 
 
 
