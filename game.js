@@ -96,6 +96,7 @@ function create ()
     //   });
 
 
+
     this.pink_monster = this.physics
         .add.sprite(50, 160, 'pink_monster', 0)
         .setSize(18,30)
@@ -113,61 +114,79 @@ function create ()
 
     this.physics.add.collider(this.pink_monster, collisions);
     this.physics.add.collider(this.owlet_monster, collisions);
-    this.physics.add.collider(this.pink_monster, this.owlet_monster, gotTagged);
+    this.physics.add.collider(this.pink_monster, this.owlet_monster, gotTagged, null, this);
 
-    //this.physics.add.overlap(this.pink_monster, this.owlet_monster, gotTagged);
 
     this.physics.world.setBounds(0,0,400,420);
 
-    var playerSelect = Math.floor((Math.random() * 2) + 1);
-    var taggerP1 = false;
-    var taggerP2 = false;
-    // console.log(playerSelect);
+    this.text1 = this.add.text(30, 130, `You're it!`, {
+        fontFamily: 'ValMore'
+    });
+    this.text1.setOrigin(.5,3);
+    this.text1.setVisible(false);
+    this.text1.setDepth(20);
 
-    if (playerSelect === 1)
+    this.text2 = this.add.text(330, 130, `You're it!`, {
+        fontFamily: 'ValMore'
+    });
+    this.text2.setOrigin(.8,3);
+    this.text2.setVisible(false);
+    this.text2.setDepth(20);
+
+
+    this.playerSelect = Math.floor((Math.random() * 2) + 1);
+    this.taggerP1 = false;
+    this.taggerP2 = false;
+
+
+    // select tagger at start of game
+    if (this.playerSelect === 1)
     {
-        taggerP1 = true;
+        this.taggerP1 = true;
         this.pink_monster.play('hurt', true);
-        console.log(taggerP1 + ' p1');
+        console.log('p1 is it');
+        this.text1.setVisible(true);
+        this.time.delayedCall(3000, textVisibleOff, null, this);
     }
-    else if (playerSelect === 2)
+    else if (this.playerSelect === 2)
     {
-        taggerP2 = true;
+        this.taggerP2 = true;
         this.owlet_monster.play('owlet-hurt', true);
-        console.log(taggerP2 + ' p2');
+        console.log('p2 is it');
+        this.text2.setVisible(true);
+        this.time.delayedCall(3000, textVisibleOff, null, this);
     }
 
 
 }
 
-function selectTagger(selectedNum,player1, player2){
-
-
+function textVisibleOff(){
+    this.text1.setVisible(false);
+    this.text2.setVisible(false);
 }
-
-
 
 
 function gotTagged(player1, player2) {
-    // console.log('true');
     player1.setPosition(50,160);
     player2.setPosition(350,160);
-   // if (player1.body.velocityX == 74 && player1.body.velocityY == 74)
-   // {
-   //     player1.body.setVelocityX(70);
-   //     player1.body.setVelocityY(70);
-   //     player2.body.setVelocityX(74);
-    //    player2.body.setVelocityY(74);
-        console.log('player 2 speed ' + player2.body.maxVelocityX);
-   // }
-   // else if (player2.velocityX == 74 && player2.velocityY == 74)
-   // {
-   //     player2.body.setVelocityX(70);
-   //     player2.body.setVelocityY(70);
-    //    player1.body.setVelocityX(74);
-    //    player1.body.setVelocityY(74);
-    //    console.log('player 1 speed 74');
-   // }
+    if (this.taggerP1 == true)
+    {
+        this.taggerP2 = true;
+        this.taggerP1 = false;
+        player1.play('hurt', true);
+        console.log('p2 is it');
+        this.text2.setVisible(true);
+        this.time.delayedCall(3000, textVisibleOff, null, this);
+    }
+    else if (this.taggerP2 == true)
+    {
+        this.taggerP1 = true;
+        this.taggerP2 = false;
+        player2.play('owlet-hurt', true);
+        console.log('p1 is it');
+        this.text1.setVisible(true);
+        this.time.delayedCall(3000, textVisibleOff, null, this);
+    }
 
 }
 
@@ -279,13 +298,13 @@ function update (time,delta)
     if (this.player2.left2.isDown)
     {
 
-        moveCharacterLeft(this.owlet_monster.body, speed2);
+        moveCharacterLeft(this.owlet_monster.body, speed);
 
     }
     else if (this.player2.right2.isDown)
     {
 
-        moveCharacterRight(this.owlet_monster.body, speed2);
+        moveCharacterRight(this.owlet_monster.body, speed);
 
     }
 
@@ -293,12 +312,12 @@ function update (time,delta)
     if (this.player2.up2.isDown)
     {
 
-        moveCharacterUp(this.owlet_monster.body, speed2);
+        moveCharacterUp(this.owlet_monster.body, speed);
 
     }
     else if (this.player2.down2.isDown)
     {
-        moveCharacterDown(this.owlet_monster.body, speed2);
+        moveCharacterDown(this.owlet_monster.body, speed);
 
     }
 
@@ -348,7 +367,13 @@ function update (time,delta)
     }
 
     this.pink_monster.body.velocity.normalize().scale(speed); // keeps sprite from moving faster at diagonals
-    this.owlet_monster.body.velocity.normalize().scale(speed2);
+    this.owlet_monster.body.velocity.normalize().scale(speed);
+
+    //text and sprite move together
+    this.text1.x = Math.floor(this.pink_monster.x + this.pink_monster.width / 2);
+    this.text1.y = Math.floor(this.pink_monster.y + this.pink_monster.height / 2);
+    this.text2.x = Math.floor(this.owlet_monster.x + this.owlet_monster.width / 2);
+    this.text2.y = Math.floor(this.owlet_monster.y + this.owlet_monster.height / 2);
 }
 
 
