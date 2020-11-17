@@ -137,6 +137,8 @@ function create ()
     this.playerSelect = Math.floor((Math.random() * 2) + 1);
     this.taggerP1 = false;
     this.taggerP2 = false;
+    this.speed = 70;
+    this.speed2 = 70;
 
 
     // select tagger at start of game
@@ -144,6 +146,8 @@ function create ()
     {
         this.taggerP1 = true;
         this.pink_monster.play('hurt', true);
+        this.speed = 73;
+        this.speed2 = 70;
         console.log('p1 is it');
         this.text1.setVisible(true);
         this.time.delayedCall(2000, textVisibleOff, null, this);
@@ -152,6 +156,8 @@ function create ()
     {
         this.taggerP2 = true;
         this.owlet_monster.play('owlet-hurt', true);
+        this.speed = 70;
+        this.speed2 = 73;
         console.log('p2 is it');
         this.text2.setVisible(true);
         this.time.delayedCall(2000, textVisibleOff, null, this);
@@ -216,8 +222,8 @@ function update (time,delta)
 {
     this.pink_monster.body.setVelocity(0);
     this.owlet_monster.body.setVelocity(0);
-    var speed = 70;
-    var speed2 = 73;
+    var speed = this.speed;//original this.speed = 70
+    var speed2 = this.speed2; //original this.speed: 73
 
 
 
@@ -298,13 +304,13 @@ function update (time,delta)
     if (this.player2.left2.isDown)
     {
 
-        moveCharacterLeft(this.owlet_monster.body, speed);
+        moveCharacterLeft(this.owlet_monster.body, speed2);
 
     }
     else if (this.player2.right2.isDown)
     {
 
-        moveCharacterRight(this.owlet_monster.body, speed);
+        moveCharacterRight(this.owlet_monster.body, speed2);
 
     }
 
@@ -312,12 +318,12 @@ function update (time,delta)
     if (this.player2.up2.isDown)
     {
 
-        moveCharacterUp(this.owlet_monster.body, speed);
+        moveCharacterUp(this.owlet_monster.body, speed2);
 
     }
     else if (this.player2.down2.isDown)
     {
-        moveCharacterDown(this.owlet_monster.body, speed);
+        moveCharacterDown(this.owlet_monster.body, speed2);
 
     }
 
@@ -367,7 +373,7 @@ function update (time,delta)
     }
 
     this.pink_monster.body.velocity.normalize().scale(speed); // keeps sprite from moving faster at diagonals
-    this.owlet_monster.body.velocity.normalize().scale(speed);
+    this.owlet_monster.body.velocity.normalize().scale(speed2);
 
     //text and sprite move together
     this.text1.x = Math.floor(this.pink_monster.x + this.pink_monster.width / 2);
