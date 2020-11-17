@@ -87,6 +87,8 @@ function create ()
     collisions.setCollisionByProperty({collides: true});
     collisions.setDepth(10);
 
+    //const sprintBar= makeBar(140,100,0x2ecc71);
+
 
     //   const debugGraphics = this.add.graphics().setAlpha(0.75);
     //   collisions.renderDebug(debugGraphics, {
@@ -99,13 +101,14 @@ function create ()
 
     this.pink_monster = this.physics
         .add.sprite(50, 160, 'pink_monster', 0)
-        .setSize(18,30)
-        .setOffset(7,3);
+        .setSize(18,30) //last value - (18,12)
+        .setOffset(7,3); //last value - (7,19)
+
 
     this.owlet_monster = this.physics
         .add.sprite(350,160,'owlet_monster', 0)
-        .setSize(18,29)
-        .setOffset(7,4);
+        .setSize(18,29) //original value - (18,12)
+        .setOffset(7,4); //original value - (7,19)
 
     this.owlet_monster.flipX = true;
 
@@ -132,6 +135,24 @@ function create ()
     this.text2.setOrigin(.7,3);
     this.text2.setVisible(false);
     this.text2.setDepth(20);
+
+    //draw the bar
+    this.bar = this.add.graphics();
+    //color the bar
+    this.bar.fillStyle(0xFFFFFF, 1);
+    //fill the bar with a rectangle
+    this.bar.fillRect(0, 0, 25, 3);
+    this.barPercentage = 100;
+    setValue(this.bar,this.barPercentage);
+
+    //draw the bar
+    this.bar2 = this.add.graphics();
+    //color the bar
+    this.bar2.fillStyle(0xFFFFFF, 1);
+    //fill the bar with a rectangle
+    this.bar2.fillRect(0, 0, 25, 3);
+    this.bar2Percentage = 100;
+    setValue(this.bar2,this.bar2Percentage);
 
 
     this.playerSelect = Math.floor((Math.random() * 2) + 1);
@@ -171,6 +192,27 @@ function textVisibleOff(){
     this.text2.setVisible(false);
 }
 
+function makeBar(x, y,color) {
+    //draw the bar
+    const bar = this.add.graphics();
+
+    //color the bar
+    bar.fillStyle(color, 1);
+
+    //fill the bar with a rectangle
+    bar.fillRect(0, 0, 200, 50);
+
+    //position the bar
+    bar.x = x;
+    bar.y = y;
+
+    //return the bar
+    return bar;
+}
+function setValue(bar,percentage) {
+    //scale the bar
+    bar.scaleX = percentage/100;
+}
 
 function gotTagged(player1, player2) {
     player1.setPosition(50,160);
@@ -179,7 +221,7 @@ function gotTagged(player1, player2) {
     {
         this.taggerP2 = true;
         this.taggerP1 = false;
-        player1.play('hurt', true);
+        player2.play('owlet-hurt', true);
         console.log('p2 is it');
         this.text2.setVisible(true);
         this.time.delayedCall(2000, textVisibleOff, null, this);
@@ -188,7 +230,7 @@ function gotTagged(player1, player2) {
     {
         this.taggerP1 = true;
         this.taggerP2 = false;
-        player2.play('owlet-hurt', true);
+        player1.play('hurt', true);
         console.log('p1 is it');
         this.text1.setVisible(true);
         this.time.delayedCall(2000, textVisibleOff, null, this);
@@ -224,7 +266,7 @@ function update (time,delta)
     this.owlet_monster.body.setVelocity(0);
     var speed = this.speed;//original this.speed = 70
     var speed2 = this.speed2; //original this.speed: 73
-
+    var barPercentage = 100;
 
 
 //player1
@@ -256,6 +298,8 @@ function update (time,delta)
     {
         speed = speed * 2;
         this.pink_monster.play('run',true);
+        //barPercentage = barPercentage - 10;
+        //setValue(this.bar,barPercentage);
 
 
         if (this.player1.left.isDown)
@@ -297,6 +341,8 @@ function update (time,delta)
     else
     {
         this.pink_monster.play('stand', true);
+        //barPercentage = barPercentage + 5;
+        //setValue(this.bar,barPercentage);
     }
 
 //player 2
@@ -375,11 +421,15 @@ function update (time,delta)
     this.pink_monster.body.velocity.normalize().scale(speed); // keeps sprite from moving faster at diagonals
     this.owlet_monster.body.velocity.normalize().scale(speed2);
 
-    //text and sprite move together
+    //text, sprint bar and, sprite move together
     this.text1.x = Math.floor(this.pink_monster.x + this.pink_monster.width / 2);
     this.text1.y = Math.floor(this.pink_monster.y + this.pink_monster.height / 2);
     this.text2.x = Math.floor(this.owlet_monster.x + this.owlet_monster.width / 2);
     this.text2.y = Math.floor(this.owlet_monster.y + this.owlet_monster.height / 2);
+    this.bar.x = this.pink_monster.x - 12;
+    this.bar.y = this.pink_monster.y + 23;
+    this.bar2.x = this.owlet_monster.x - 12;
+    this.bar2.y = this.owlet_monster.y + 23;
 }
 
 
