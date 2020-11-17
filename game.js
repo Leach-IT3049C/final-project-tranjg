@@ -122,14 +122,14 @@ function create ()
     this.text1 = this.add.text(30, 130, `You're it!`, {
         fontFamily: 'ValMore'
     });
-    this.text1.setOrigin(.5,3);
+    this.text1.setOrigin(.7,3);
     this.text1.setVisible(false);
     this.text1.setDepth(20);
 
     this.text2 = this.add.text(330, 130, `You're it!`, {
         fontFamily: 'ValMore'
     });
-    this.text2.setOrigin(.8,3);
+    this.text2.setOrigin(.7,3);
     this.text2.setVisible(false);
     this.text2.setDepth(20);
 
@@ -146,7 +146,7 @@ function create ()
         this.pink_monster.play('hurt', true);
         console.log('p1 is it');
         this.text1.setVisible(true);
-        this.time.delayedCall(3000, textVisibleOff, null, this);
+        this.time.delayedCall(2000, textVisibleOff, null, this);
     }
     else if (this.playerSelect === 2)
     {
@@ -154,7 +154,7 @@ function create ()
         this.owlet_monster.play('owlet-hurt', true);
         console.log('p2 is it');
         this.text2.setVisible(true);
-        this.time.delayedCall(3000, textVisibleOff, null, this);
+        this.time.delayedCall(2000, textVisibleOff, null, this);
     }
 
 
@@ -176,7 +176,7 @@ function gotTagged(player1, player2) {
         player1.play('hurt', true);
         console.log('p2 is it');
         this.text2.setVisible(true);
-        this.time.delayedCall(3000, textVisibleOff, null, this);
+        this.time.delayedCall(2000, textVisibleOff, null, this);
     }
     else if (this.taggerP2 == true)
     {
@@ -185,7 +185,7 @@ function gotTagged(player1, player2) {
         player2.play('owlet-hurt', true);
         console.log('p1 is it');
         this.text1.setVisible(true);
-        this.time.delayedCall(3000, textVisibleOff, null, this);
+        this.time.delayedCall(2000, textVisibleOff, null, this);
     }
 
 }
