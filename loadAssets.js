@@ -28,6 +28,7 @@ class loadAssets extends Phaser.Scene {
         this.load.image('howto', 'assets/howto/howto.png');
 
         this.load.audio('tagged','assets/sfx/tagged.wav');
+        this.load.audio('woods_music','assets/music/06-School.mp3');
 
     }
 

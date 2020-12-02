@@ -167,6 +167,7 @@ class playGame extends Phaser.Scene {
                 right2: Phaser.Input.Keyboard.KeyCodes.RIGHT,
                 space2: Phaser.Input.Keyboard.KeyCodes.SPACE
             });
+
     }
 
     create() {
@@ -197,6 +198,12 @@ class playGame extends Phaser.Scene {
             volume: .2
         })
 
+        this.woods_music = this.sound.add('woods_music',{
+            volume: .2,
+            loop: true
+        })
+
+        this.woods_music.play();
 
         this.pink_monster = this.physics
             .add.sprite(50, 160, 'pink_monster', 0)

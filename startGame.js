@@ -8,6 +8,9 @@ class startGame extends Phaser.Scene {
     preload(){
         this.load.audio('title_music', 'assets/music/03-Chibi-Ninja.mp3');
         this.load.audio('title_music2', 'assets/music/titlemusic2.mp3');
+        this.load.audio('start_game', 'assets/sfx/startgame.wav');
+        this.load.audio('instructions', 'assets/sfx/instructions.wav');
+        this.load.audio('closed', 'assets/sfx/closed.wav');
     }
 
     create(){
@@ -15,10 +18,34 @@ class startGame extends Phaser.Scene {
         this.cameras.main.setBackgroundColor('rgba(255, 255, 255, 1)');
         this.titleMusic = this.sound.add('title_music', {
             volume: .2
-        })
-        this.titleMusic.play();
-        this.titleMusic.resume();
+        });
+        //remove AudioContext warning
+        this.titleMusic.pauseOnBlur = false;
+        if (!this.sound.locked)
+        {
+            // already unlocked so play
+            this.titleMusic.play();
 
+        }
+        else
+        {
+            // wait for 'unlocked' to fire and then play
+            this.sound.once(Phaser.Sound.Events.UNLOCKED, () => {
+                this.titleMusic.play();
+            })
+        }
+
+        this.playbtnSound = this.sound.add('start_game', {
+            volume: .2
+        });
+
+        this.instructionsbtnSound = this.sound.add('instructions', {
+            volume: .2
+        });
+
+        this.closedSound = this.sound.add('closed', {
+            volume: .2
+        });
 
         this.title = this.physics
             .add.sprite(this.cameras.main.worldView.x + this.cameras.main.width / 2 , this.cameras.main.worldView.y + this.cameras.main.height / 2 - 70, 'title', 0);
@@ -70,7 +97,7 @@ class startGame extends Phaser.Scene {
             this.play.visible = true;
         })
         this.play.on("pointerup", ()=>{
-
+            this.playbtnSound.play();
             this.play2.visible = false;
             this.play.visible = true;
             this.titleMusic.stop();
@@ -94,7 +121,7 @@ class startGame extends Phaser.Scene {
             this.play.visible = true;
         })
         this.play2.on("pointerup", ()=>{
-
+            this.playbtnSound.play();
             this.play2.visible = false;
             this.play.visible = true;
             this.titleMusic.stop();
@@ -119,7 +146,7 @@ class startGame extends Phaser.Scene {
             this.info.visible = true;
         })
         this.info.on("pointerup", ()=>{
-
+            this.instructionsbtnSound.play();
             this.info2.visible = false;
             this.info.visible = true;
             this.howto.visible = true;
@@ -139,7 +166,7 @@ class startGame extends Phaser.Scene {
             this.info.visible = true;
         })
         this.info2.on("pointerup", ()=>{
-
+            this.instructionsbtnSound.play();
             this.info2.visible = false;
             this.info.visible = true;
             this.howto.visible = true;
@@ -149,6 +176,7 @@ class startGame extends Phaser.Scene {
 
         this.howto.on("pointerup", ()=>{
             this.howto.visible = false;
+            this.closedSound.play();
         })
     }
 }
