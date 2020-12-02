@@ -93,12 +93,18 @@ function setValue(bar,percentage) {
 function gotTagged(player1, player2) {
     player1.setPosition(50,160);
     player2.setPosition(350,160);
+    this.tagged.play();
+    this.tagged.resume();
     if (this.taggerP1 == true)
     {
         this.taggerP2 = true;
         this.taggerP1 = false;
         player2.play('owlet-hurt', true);
+        this.speed2 = 73;
+        this.speed = 70;
         console.log('p2 is it');
+        console.log('p2 speed - ' + this.speed2);
+        console.log('p1 speed - ' + this.speed);
         this.text2.setVisible(true);
         this.time.delayedCall(2000, textVisibleOff, null, this);
     }
@@ -107,7 +113,11 @@ function gotTagged(player1, player2) {
         this.taggerP1 = true;
         this.taggerP2 = false;
         player1.play('hurt', true);
+        this.speed = 73;
+        this.speed2 = 70;
         console.log('p1 is it');
+        console.log('p1 speed - ' + this.speed);
+        console.log('p2 speed - ' + this.speed2);
         this.text1.setVisible(true);
         this.time.delayedCall(2000, textVisibleOff, null, this);
     }
@@ -160,6 +170,8 @@ class playGame extends Phaser.Scene {
     }
 
     create() {
+        this.cameras.main.fadeIn(1000, 0, 0, 0)
+
         var map = this.make.tilemap({key: 'map'});
         var tileset = map.addTilesetImage('woods-02', 'tiles');
 
@@ -180,6 +192,10 @@ class playGame extends Phaser.Scene {
         //       collidingTileColor: new Phaser.Display.Color(243,234,48,255),
         //       faceColor: new Phaser.Display.Color(40,39,37,255)
         //   });
+
+        this.tagged = this.sound.add('tagged', {
+            volume: .2
+        })
 
 
         this.pink_monster = this.physics
@@ -227,6 +243,7 @@ class playGame extends Phaser.Scene {
         this.bar.fillRect(0, 0, 25, 3);
         this.barPercentage = 100;
         setValue(this.bar, this.barPercentage);
+        this.bar.visible = false;
 
         //draw the bar
         this.bar2 = this.add.graphics();
@@ -236,6 +253,7 @@ class playGame extends Phaser.Scene {
         this.bar2.fillRect(0, 0, 25, 3);
         this.bar2Percentage = 100;
         setValue(this.bar2, this.bar2Percentage);
+        this.bar2.visible = false;
 
 
         this.playerSelect = Math.floor((Math.random() * 2) + 1);
@@ -252,6 +270,8 @@ class playGame extends Phaser.Scene {
             this.speed = 73;
             this.speed2 = 70;
             console.log('p1 is it');
+            console.log('p1 speed - ' + this.speed);
+            console.log('p2 speed - ' + this.speed2);
             this.text1.setVisible(true);
             this.time.delayedCall(2000, textVisibleOff, null, this);
         } else if (this.playerSelect === 2) {
@@ -260,6 +280,8 @@ class playGame extends Phaser.Scene {
             this.speed = 70;
             this.speed2 = 73;
             console.log('p2 is it');
+            console.log('p2 speed - ' + this.speed2);
+            console.log('p1 speed - ' + this.speed);
             this.text2.setVisible(true);
             this.time.delayedCall(2000, textVisibleOff, null, this);
         }
@@ -301,7 +323,7 @@ class playGame extends Phaser.Scene {
             speed = speed * 2;
             this.pink_monster.play('run', true);
             barPercentage += Math.floor(-.5 * this.player1.shift.getDuration() / 10);
-            console.log(barPercentage);
+            //console.log(barPercentage);
             setValue(this.bar, barPercentage);
 
 

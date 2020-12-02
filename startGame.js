@@ -7,13 +7,18 @@ class startGame extends Phaser.Scene {
 
     preload(){
         this.load.audio('title_music', 'assets/music/03-Chibi-Ninja.mp3');
+        this.load.audio('title_music2', 'assets/music/titlemusic2.mp3');
     }
 
     create(){
 
         this.cameras.main.setBackgroundColor('rgba(255, 255, 255, 1)');
-        let titleMusic = this.sound.add('title_music');
-        titleMusic.play();
+        this.titleMusic = this.sound.add('title_music', {
+            volume: .2
+        })
+        this.titleMusic.play();
+        this.titleMusic.resume();
+
 
         this.title = this.physics
             .add.sprite(this.cameras.main.worldView.x + this.cameras.main.width / 2 , this.cameras.main.worldView.y + this.cameras.main.height / 2 - 70, 'title', 0);
@@ -68,6 +73,7 @@ class startGame extends Phaser.Scene {
 
             this.play2.visible = false;
             this.play.visible = true;
+            this.titleMusic.stop();
             this.cameras.main.fadeOut(1000,0, 0, 0);
             this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, (cam, effect) => {
                 this.scene.start('playGame')
@@ -91,6 +97,7 @@ class startGame extends Phaser.Scene {
 
             this.play2.visible = false;
             this.play.visible = true;
+            this.titleMusic.stop();
             this.cameras.main.fadeOut(1000,0, 0, 0);
             this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, (cam, effect) => {
                 this.scene.start('playGame')
