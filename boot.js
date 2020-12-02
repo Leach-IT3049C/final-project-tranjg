@@ -16,7 +16,7 @@ var config = {
             gravity: { y: 0 }
         }
     },
-    scene: [loadAssets, playGame],
+    scene: [loadAssets,startGame, playGame],
     render: {
         pixelArt: true
     }

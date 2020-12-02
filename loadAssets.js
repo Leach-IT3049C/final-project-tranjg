@@ -20,12 +20,17 @@ class loadAssets extends Phaser.Scene {
         this.load.spritesheet('owlet_monster_hurt', 'assets/sprites/owlet_monster/Owlet_Monster_Hurt_4.png', {frameWidth: 32, frameHeight: 32});
 
         this.load.spritesheet('run_dust', 'assets/sprites/pink_monster/Walk_Run_Push_Dust_6.png', {frameWidth: 32, frameHeight: 32});
-
+        this.load.spritesheet('title', 'assets/sprites/title/title.png', {frameWidth: 257, frameHeight: 63});
+        this.load.image('play', 'assets/buttons/play-button-2.png');
+        this.load.image('info', 'assets/buttons/information.png');
+        this.load.image('play2', 'assets/buttons/play-button.png');
+        this.load.image('info2', 'assets/buttons/information-2.png');
+        this.load.image('howto', 'assets/howto/howto.png');
 
     }
 
     create(){
         this.add.text(20,20,"Loading game...");
-        this.scene.start("playGame");
+        this.scene.start("startGame");
     }
 }
