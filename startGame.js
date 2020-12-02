@@ -146,7 +146,7 @@ class startGame extends Phaser.Scene {
             this.info.visible = true;
         })
         this.info.on("pointerup", ()=>{
-            this.instructionsbtnSound.play();
+            this.closedSound.play();
             this.info2.visible = false;
             this.info.visible = true;
             this.howto.visible = true;
@@ -166,7 +166,7 @@ class startGame extends Phaser.Scene {
             this.info.visible = true;
         })
         this.info2.on("pointerup", ()=>{
-            this.instructionsbtnSound.play();
+            this.closedSound.play();
             this.info2.visible = false;
             this.info.visible = true;
             this.howto.visible = true;
@@ -176,7 +176,7 @@ class startGame extends Phaser.Scene {
 
         this.howto.on("pointerup", ()=>{
             this.howto.visible = false;
-            this.closedSound.play();
+            this.instructionsbtnSound.play();
         })
     }
 }
