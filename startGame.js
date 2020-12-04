@@ -17,23 +17,13 @@ class startGame extends Phaser.Scene {
 
         this.cameras.main.setBackgroundColor('rgba(255, 255, 255, 1)');
         this.titleMusic = this.sound.add('title_music', {
-            volume: .2
+            volume: .2,
+            loop: true
         });
         //remove AudioContext warning
-        this.titleMusic.pauseOnBlur = false;
-        if (!this.sound.locked)
-        {
-            // already unlocked so play
+        setTimeout(() => {
             this.titleMusic.play();
-
-        }
-        else
-        {
-            // wait for 'unlocked' to fire and then play
-            this.sound.once(Phaser.Sound.Events.UNLOCKED, () => {
-                this.titleMusic.play();
-            })
-        }
+        });
 
         this.playbtnSound = this.sound.add('start_game', {
             volume: .2
@@ -48,7 +38,7 @@ class startGame extends Phaser.Scene {
         });
 
         this.title = this.physics
-            .add.sprite(this.cameras.main.worldView.x + this.cameras.main.width / 2 , this.cameras.main.worldView.y + this.cameras.main.height / 2 - 70, 'title', 0);
+            .add.sprite(this.cameras.main.worldView.x + this.cameras.main.width / 2 + 15, this.cameras.main.worldView.y + this.cameras.main.height / 2 - 70, 'title', 0);
         this.anims.create({
             key: 'title',
             repeat: -1,
@@ -58,23 +48,28 @@ class startGame extends Phaser.Scene {
         this.title.play('title', true);
 
         this.play = this.physics
-            .add.image(this.cameras.main.worldView.x + this.cameras.main.width / 2 - 30, this.cameras.main.worldView.y + this.cameras.main.height / 2 + 10, 'play', 0)
+            .add.image(this.cameras.main.worldView.x + this.cameras.main.width / 2 - 25, this.cameras.main.worldView.y + this.cameras.main.height / 2 + 10, 'play', 0)
         this.play.setScale(.07);
-
+        this.play.visible = false;
 
         this.play2 = this.physics
-            .add.image(this.cameras.main.worldView.x + this.cameras.main.width / 2 - 30, this.cameras.main.worldView.y + this.cameras.main.height / 2 + 10, 'play2', 0)
+            .add.image(this.cameras.main.worldView.x + this.cameras.main.width / 2 - 25, this.cameras.main.worldView.y + this.cameras.main.height / 2 + 10, 'play2', 0)
         this.play2.setScale(.07);
         this.play2.setDepth(1);
         this.play2.visible = false;
 
+        this.start = this.add.text(this.cameras.main.worldView.x - 90 + this.cameras.main.width / 2 , this.cameras.main.worldView.y + this.cameras.main.height / 2 ,"~Click anywhere to start~", {
+            fontFamily: 'ValMore'});
+        this.start.setColor("black");
+
 
         this.info = this.physics
-            .add.image(this.cameras.main.worldView.x + this.cameras.main.width / 2 + 30, this.cameras.main.worldView.y + this.cameras.main.height / 2 + 10, 'info', 0)
+            .add.image(this.cameras.main.worldView.x + this.cameras.main.width / 2 + 55, this.cameras.main.worldView.y + this.cameras.main.height / 2 + 10, 'info', 0)
         this.info.setScale(.07);
+        this.info.visible = false;
 
         this.info2 = this.physics
-            .add.image(this.cameras.main.worldView.x + this.cameras.main.width / 2 + 30, this.cameras.main.worldView.y + this.cameras.main.height / 2 + 10, 'info2', 0)
+            .add.image(this.cameras.main.worldView.x + this.cameras.main.width / 2 + 55, this.cameras.main.worldView.y + this.cameras.main.height / 2 + 10, 'info2', 0)
         this.info2.setScale(.07);
         this.info2.setDepth(1);
         this.info2.visible = false;
@@ -82,6 +77,22 @@ class startGame extends Phaser.Scene {
         this.howto = this.add.image(this.cameras.main.worldView.x + this.cameras.main.width / 2 , this.cameras.main.worldView.y + this.cameras.main.height / 2 , 'howto', 0)
         this.howto.setDepth(2);
         this.howto.visible = false;
+
+        this.start.setInteractive();
+
+        this.start.on("pointerup", () => {
+            this.play.visible = true;
+            this.info.visible = true;
+            this.titleMusic.play();
+        });
+
+        //Click Anywhere event
+        this.input.once("pointerup", () => {
+            this.play.visible = true;
+            this.info.visible = true;
+            this.titleMusic.play();
+            this.start.visible = false;
+        });
 
         this.play.setInteractive();
 
